@@ -604,8 +604,7 @@ jobs:
 
       - name: Install Haxe dependencies
         run: |
-          curl --output ../hxcpp-4.3.171.zip --location https://github.com/HaxeFoundation/hxcpp/releases/download/v4.3.171/hxcpp-4.3.171.zip
-          haxelib install ../hxcpp-4.3.171.zip --quiet
+          haxelib git hxcpp https://github.com/MRK-Stuff/hxcpp --quiet
           haxelib install format --quiet
           haxelib install hxp --quiet
 
@@ -613,6 +612,9 @@ jobs:
         run: |
           haxelib dev lime ${{ github.workspace }}
           haxelib run lime setup -alias -y -nocffi -eval
+          cd $(haxelib libpath hxcpp)/tools/hxcpp
+          haxe compile.hxml
+          cd ${{ github.workspace }}
 
       - name: Configure Android support
         run: |
